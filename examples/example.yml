@@ -1,0 +1,31 @@
+version: poc
+
+commands:
+  - name: noargs
+    help: A command without arguments
+    cmd: echo "It works!"
+  - name: subcommands
+    help: A command with subcommands
+    cmd: echo "Root command."
+    subcommands:
+      - name: first
+        help: First subcommand
+        cmd: echo "Args for first subcommand are $@"
+      - name: second
+        help: Second subcommand
+        cmd: echo "Args for second subcommand are $@"
+  - name: params-arbitrary
+    help: A command with arbitrary params.
+    cmd: echo "Arbitrary parameters list is $@"
+  - name: params-documented
+    help: A command with described params.
+    cmd: echo "Documented parameters list is $@"
+    params:
+      - name: first
+        values: [true, false]
+        optional: false
+      - name: tag
+        values: [value1, value2, value3, value4]
+        optional: true
+      - name: name
+        optional: true

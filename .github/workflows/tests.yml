@@ -1,0 +1,24 @@
+name: Linter and tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+        with:
+          go-version: '>=1.18.0'
+      - name: Install mk
+        run: |
+          go build -o mk .
+          chmod a+x mk
+          sudo cp mk /usr/local/bin/mk
+      - name: Run tests
+        run: mk test

@@ -1,0 +1,6 @@
+version: poc
+
+commands:
+  - name: test
+    help: Run go tests.
+    cmd: go test ./...
