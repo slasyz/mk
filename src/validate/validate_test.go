@@ -16,6 +16,10 @@ func TestValidate(t *testing.T) {
 		expectedErr string
 	}{
 		{
+			filename:    "invalid_duplicate.yml",
+			expectedErr: `duplicated "cmdname" command`,
+		},
+		{
 			filename:    "invalid_optionals.yml",
 			expectedErr: `command "mk required-after-optional": all params after "tag" must be optional`,
 		},

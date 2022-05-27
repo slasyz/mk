@@ -1,0 +1,9 @@
+version: poc
+
+commands:
+  - name: cmdname
+    help: First command.
+    cmd: echo "first command"
+  - name: cmdname
+    help: Second command but with the same name.
+    cmd: echo "second command"

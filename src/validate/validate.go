@@ -17,8 +17,13 @@ func validateParams(params []schema.Param) error {
 }
 
 func validate(commands []schema.Command, args string) error {
+	set := make(map[string]struct{}, len(commands))
 	for _, command := range commands {
 		thisCmd := args + " " + command.Name
+		if _, ok := set[command.Name]; ok {
+			return fmt.Errorf("duplicated \"%s\" command", command.Name)
+		}
+		set[command.Name] = struct{}{}
 
 		// Checking that there are no required params after optional one
 		onlyOptionals := false
