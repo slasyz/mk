@@ -4,6 +4,11 @@ commands:
   - name: noargs
     help: A command without arguments
     cmd: echo "It works!"
+  - name: multiline
+    help: Multiline command
+    cmd: |
+      echo "hello there"
+      echo "how r u"
   - name: subcommands
     help: A command with subcommands
     cmd: echo "Root command."

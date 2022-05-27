@@ -1,0 +1,15 @@
+version: poc
+
+commands:
+  - name: required-after-optional
+    help: Contains required parameter after optional, this is wrong.
+    cmd: echo "not ok"
+    params:
+      - name: first
+        values: [true, false]
+        optional: false
+      - name: tag
+        values: [value1, value2, value3, value4]
+        optional: true
+      - name: name
+        optional: false

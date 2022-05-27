@@ -1,0 +1,14 @@
+version: poc
+
+commands:
+  - name: unnamed
+    help: Contains unnamed non-enum parameter.  It's wrong because there's unclear what to add to help output.
+    cmd: echo "not ok"
+    params:
+      - name: first
+        values: [true, false]
+        optional: false
+      - name: tag
+        values: [value1, value2, value3, value4]
+        optional: true
+      - optional: true

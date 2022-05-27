@@ -119,7 +119,7 @@ func TestBuildScript(t *testing.T) {
 
 			res, err := Build(root, tt.args)
 			if tt.expectedError != "" {
-				require.Equal(t, err.Error(), tt.expectedError)
+				require.EqualError(t, err, tt.expectedError)
 			} else {
 				require.NoError(t, err)
 				require.Equal(t, tt.expectedScript, res)

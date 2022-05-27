@@ -1,0 +1,9 @@
+version: poc
+
+commands:
+  - name: cmdlist
+    help: List of commands instead of a single one.
+    cmd:
+      - echo "first step"
+      - echo "second step"
+      - echo "third step"
