@@ -39,6 +39,7 @@ $ mk help
 * website with documentation (use mk.syrovats.ky address to promote personal brand)
 * single line instruction to install the tool (`curl ... | bash`) to anyone who doesn't really care about security
 * unify validation output (make errors text consistent)
+* ~~make it :rocket:blazing fast:rocket: by rewriting in Rust~~ no
 
 
 ## Contributing
