@@ -34,3 +34,22 @@ commands:
         optional: true
       - name: name
         optional: true
+  - name: subcmd-params
+    help: A command with both subcommands and params
+    cmd: echo "Root command, args are $@."
+    params:
+      - name: first
+        values: [true, false]
+        optional: false
+      - name: tag
+        values: [value1, value2, value3, value4]
+        optional: true
+      - name: name
+        optional: true
+    subcommands:
+      - name: subfirst
+        help: First subcommand
+        cmd: echo "Args for first subcommand are $@"
+      - name: subsecond
+        help: Second subcommand
+        cmd: echo "Args for second subcommand are $@"

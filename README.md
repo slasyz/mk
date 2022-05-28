@@ -27,11 +27,20 @@ $ sudo cp mk /usr/local/bin/mk
 $ mk help
 ```
 
+## Shell autocompletion
+
+```shell
+# Add this to your .zshrc if you use zsh:
+autoload -Uz +X compinit bashcompinit && compinit && bashcompinit
+complete -o nosort -C mk mk
+
+# Add this to your .bash_profile if you use bash:
+complete -o nosort -C mk mk
+```
 
 ## To Do
 
 * flags in addition to positional arguments
-* shell autocompletion
 * using other commands to set variables
 * fancy colorful logs with emoji for my young friends
 * more examples (correct and incorrect)

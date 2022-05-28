@@ -20,10 +20,7 @@ type Script struct {
 	Args []string
 }
 
-func validateParamsArgs(cmd string, params []schema.Param, args []string) error {
-	if cmd == "" {
-		return errors.New("empty command")
-	}
+func ValidateParamsArgs(params []schema.Param, args []string) error {
 	if len(params) == 0 {
 		return nil
 	}
@@ -45,7 +42,11 @@ func validateParamsArgs(cmd string, params []schema.Param, args []string) error 
 }
 
 func scriptThis(command *schema.Command, args []string) (*Script, error) {
-	err := validateParamsArgs(command.Cmd, command.Params, args)
+	if command.Cmd == "" {
+		return nil, errors.New("empty command")
+	}
+
+	err := ValidateParamsArgs(command.Params, args)
 	if err != nil {
 		return nil, fmt.Errorf("error validating params: %w", err)
 	}
