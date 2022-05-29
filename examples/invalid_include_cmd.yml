@@ -1,0 +1,7 @@
+version: poc
+
+commands:
+  - name: include_cmd_conflict
+    help: Contains both "include" and "cmd" fields.
+    cmd: echo 123
+    include: ./example_inner.yml

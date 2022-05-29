@@ -1,11 +1,19 @@
 package schema
 
 import (
+	"errors"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"gopkg.in/yaml.v3"
+)
+
+var (
+	errIncludeAndCmd         = errors.New("command cannot include file and contain command")
+	errIncludeAndSubcommands = errors.New("command cannot include file and contain subcommands")
+	errIncludeAndParams      = errors.New("command cannot include file and contain params")
 )
 
 type Node struct {
@@ -39,7 +47,49 @@ func validateParams(params []Param) error {
 	return nil
 }
 
-func commandsToNodes(commands []Command, path []string) ([]*Node, error) {
+func commandToNode(currentFile string, command Command, path []string) (*Node, error) {
+	node := Node{
+		Name: command.Name,
+		Help: command.Help,
+	}
+
+	if command.Include != "" {
+		if command.Cmd != "" {
+			return nil, errIncludeAndCmd
+		}
+		if len(command.Subcommands) > 0 {
+			return nil, errIncludeAndSubcommands
+		}
+		if len(command.Params) > 0 {
+			return nil, errIncludeAndParams
+		}
+
+		includeNode, err := Load(filepath.Join(filepath.Dir(currentFile), command.Include))
+		if err != nil {
+			return nil, fmt.Errorf("error loading %s: %w", command.Include, err)
+		}
+
+		node.Children = includeNode.Children
+		return &node, nil
+	}
+
+	node.Cmd = command.Cmd
+
+	err := validateParams(command.Params)
+	if err != nil {
+		return nil, fmt.Errorf(`validating params: %w`, err)
+	}
+	node.Params = command.Params
+
+	node.Children, err = commandsToNodes(currentFile, command.Subcommands, path)
+	if err != nil {
+		return nil, fmt.Errorf(`converting subcommands to tree nodes: %w`, err)
+	}
+
+	return &node, nil
+}
+
+func commandsToNodes(currentFile string, commands []Command, path []string) ([]*Node, error) {
 	if len(commands) == 0 {
 		return nil, nil
 	}
@@ -50,34 +100,23 @@ func commandsToNodes(commands []Command, path []string) ([]*Node, error) {
 		cmdPath := append(path, command.Name)
 
 		if _, ok := namesSet[command.Name]; ok {
-			return nil, fmt.Errorf("duplicated \"%s\" command", command.Name)
+			return nil, fmt.Errorf("duplicated \"%s\" command", strings.Join(cmdPath, " "))
 		}
 		namesSet[command.Name] = struct{}{}
 
-		err := validateParams(command.Params)
+		node, err := commandToNode(currentFile, command, cmdPath)
 		if err != nil {
-			return nil, fmt.Errorf(`error validating params for "%s": %w`, strings.Join(cmdPath, " "), err)
+			return nil, fmt.Errorf("error in \"%s\": %w", strings.Join(cmdPath, " "), err)
 		}
 
-		children, err := commandsToNodes(command.Subcommands, cmdPath)
-		if err != nil {
-			return nil, fmt.Errorf(`error converting "%s" children to nodes: %w`, strings.Join(cmdPath, " "), err)
-		}
-
-		res[i] = &Node{
-			Name:     command.Name,
-			Help:     command.Help,
-			Params:   command.Params,
-			Cmd:      command.Cmd,
-			Children: children,
-		}
+		res[i] = node
 	}
 
 	return res, nil
 }
 
-func toTree(mkFile *MkFile) (*Node, error) {
-	children, err := commandsToNodes(mkFile.Commands, []string{"mk"})
+func toTree(currentFile string, mkFile *MkFile) (*Node, error) {
+	children, err := commandsToNodes(currentFile, mkFile.Commands, []string{"mk"})
 	if err != nil {
 		return nil, err
 	}
@@ -101,5 +140,5 @@ func Load(filename string) (*Node, error) {
 		return nil, fmt.Errorf("error decoding yaml: %w", err)
 	}
 
-	return toTree(&mkfile)
+	return toTree(filename, &mkfile)
 }

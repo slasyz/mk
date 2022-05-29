@@ -1,0 +1,13 @@
+version: poc
+
+commands:
+  - name: include_subcommands_conflict
+    help: Contains both "include" and "subcommands" fields.
+    include: ./example_inner.yml
+    subcommands:
+      - name: first
+        help: First subcommand
+        cmd: echo "Args for first subcommand are $@"
+      - name: second
+        help: Second subcommand
+        cmd: echo "Args for second subcommand are $@"

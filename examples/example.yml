@@ -53,3 +53,6 @@ commands:
       - name: subsecond
         help: Second subcommand
         cmd: echo "Args for second subcommand are $@"
+  - name: inner
+    help: Operations in another mk.yml
+    include: ./example_inner.yml
