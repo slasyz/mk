@@ -110,16 +110,16 @@ func TestBuildScript(t *testing.T) {
 			expectedScript: nil,
 			expectedError:  "error validating params: unexpected argument \"321\"",
 		},
-		//{
-		//	name:     "include file",
-		//	filename: "../../examples/example.yml",
-		//	args:     []string{"inner", "included", "param1"},
-		//	expectedScript: &Script{
-		//		Cmd:  `echo "Inner command."`,
-		//		Args: []string{"param1"},
-		//	},
-		//	expectedError: "",
-		//},
+		{
+			name:     "include file",
+			filename: "../../examples/example.yml",
+			args:     []string{"inner", "included", "param1"},
+			expectedScript: &Script{
+				Cmd:  `echo "Inner command."`,
+				Args: []string{"param1"},
+			},
+			expectedError: "",
+		},
 	}
 
 	for _, tt := range tests {
