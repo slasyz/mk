@@ -17,4 +17,4 @@ echo "-> Downloading $URL"
 curl --location -o /tmp/mk-binary "$URL"
 chmod +x /tmp/mk-binary
 mv -n /usr/local/bin/mk /usr/local/bin/mk.bak 2>/dev/null || true
-cp /tmp/mk-binary /usr/local/bin/mk
+mv /tmp/mk-binary /usr/local/bin/mk

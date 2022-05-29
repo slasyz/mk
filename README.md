@@ -14,6 +14,13 @@ It has nothing to do with Plan 9 `mk`, I just took the same name because it seem
 
 ## Installation
 
+### Leap of faith
+```shell
+curl -sf -L https://raw.githubusercontent.com/slasyz/mk/master/install.sh 2>/dev/null | sudo sh
+```
+
+### Building from sources
+
 ```shell
 $ go build -o mk .
 $ chmod a+x mk
@@ -46,7 +53,6 @@ complete -o nosort -C mk mk
 * more examples (correct and incorrect)
 * a lot of testing and bugfixes
 * website with documentation (use mk.syrovats.ky address to promote personal brand)
-* single line instruction to install the tool (`curl ... | bash`) to anyone who doesn't really care about security
 * ~~make it :rocket:blazing fast:rocket: by rewriting in Rust~~ no
 
 
