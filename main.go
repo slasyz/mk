@@ -45,7 +45,7 @@ func _main() error {
 		return fmt.Errorf("error building script: %w", err)
 	}
 
-	err = shll.Exec(script.Cmd, script.Args)
+	err = shll.Exec(script.Cmd, script.Args, script.Workdir)
 	maybePrintHelp(root, err)
 	return err
 }

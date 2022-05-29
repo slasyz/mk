@@ -17,10 +17,12 @@ var (
 )
 
 type Node struct {
-	Name   string
-	Help   string
-	Params []Param
-	Cmd    string
+	Name string
+	Help string
+
+	Cmd     string
+	Params  []Param
+	WorkDir string
 
 	Children []*Node
 }
@@ -49,8 +51,12 @@ func validateParams(params []Param) error {
 
 func commandToNode(currentFile string, command Command, path []string) (*Node, error) {
 	node := Node{
-		Name: command.Name,
-		Help: command.Help,
+		Name:    command.Name,
+		Help:    command.Help,
+		WorkDir: filepath.Dir(currentFile),
+	}
+	if command.Workdir != "" {
+		node.WorkDir = command.Workdir
 	}
 
 	if command.Include != "" {

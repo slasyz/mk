@@ -16,8 +16,9 @@ var ErrInvalidCommand = errors.New("invalid command")
 // It's script text, arguments to pass to it, maybe environment variables.
 // Other scripts to run before it.
 type Script struct {
-	Cmd  string
-	Args []string
+	Cmd     string
+	Args    []string
+	Workdir string
 }
 
 func ValidateParamsArgs(params []schema.Param, args []string) error {
@@ -52,8 +53,9 @@ func scriptThis(command *schema.Node, args []string) (*Script, error) {
 	}
 
 	return &Script{
-		Cmd:  command.Cmd,
-		Args: args,
+		Cmd:     command.Cmd,
+		Args:    args,
+		Workdir: command.WorkDir,
 	}, nil
 }
 

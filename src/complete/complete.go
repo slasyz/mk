@@ -49,7 +49,7 @@ func Complete(root *schema.Node) {
 	if !ok {
 		return
 	}
-	debug()
+	//debug()
 
 	compPoint, err := strconv.Atoi(os.Getenv("COMP_POINT"))
 	if err != nil {

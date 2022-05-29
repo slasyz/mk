@@ -9,8 +9,9 @@ type Command struct {
 	Name string `yaml:"name"`
 	Help string `yaml:"help"`
 
-	Cmd    string  `yaml:"cmd"`
-	Params []Param `yaml:"params"`
+	Cmd     string  `yaml:"cmd"`
+	Workdir string  `yaml:"workdir"`
+	Params  []Param `yaml:"params"`
 
 	Subcommands []Command `yaml:"subcommands"`
 	Include     string    `yaml:"include"`

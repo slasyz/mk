@@ -7,3 +7,6 @@ commands:
   - name: another-included
     help: Another included command.
     cmd: echo "Second inner command."
+  - name: include-root
+    help: Including root mk.yml.  It's bad practice to include files from upper level, it's here just for testing.
+    include: ../mk.yml

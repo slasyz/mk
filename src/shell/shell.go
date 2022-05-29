@@ -57,7 +57,7 @@ func New(binary string, opts ...func(shell *Shell)) *Shell {
 	return shell
 }
 
-func (s *Shell) Exec(cmd string, args []string) error {
+func (s *Shell) Exec(cmd string, args []string, workdir string) error {
 	f, err := ioutil.TempFile("", "mk-script-*.sh")
 	if err != nil {
 		return fmt.Errorf("error creating temporary script: %w", err)
@@ -79,6 +79,7 @@ func (s *Shell) Exec(cmd string, args []string) error {
 	args = append([]string{f.Name()}, args...)
 
 	command := exec.Command(s.binary, args...)
+	command.Dir = workdir
 	command.Stdin = s.stdin
 	command.Stdout = s.stdout
 	command.Stderr = s.stderr

@@ -54,5 +54,9 @@ commands:
         help: Second subcommand
         cmd: echo "Args for second subcommand are $@"
   - name: inner
-    help: Operations in another mk.yml
+    help: Commands in another mk.yml
     include: ./example_inner.yml
+  - name: workdir
+    help: Command with overridden working directory
+    workdir: /tmp
+    cmd: echo "Test working directory change."
