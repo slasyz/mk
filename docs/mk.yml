@@ -5,3 +5,17 @@ commands:
     cmd: npx vuepress dev content
   - name: build
     cmd: npx vuepress build content
+  - name: deploy
+    cmd: |
+      REF=$(git rev-parse --short HEAD)
+
+      mk build
+
+      cd content/.vuepress/dist
+      echo 'mk.syrovats.ky' > CNAME
+
+      git init
+      git add -A
+      git commit -m "deploy $REF"
+
+      git push -f git@github.com:slasyz/mk master:gh-pages

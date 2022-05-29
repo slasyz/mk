@@ -12,23 +12,15 @@ jobs:
     - name: Checkout
       uses: actions/checkout@master
 
-    - name: Build
+    - name: Install mk
+      run: curl -sf -L https://raw.githubusercontent.com/slasyz/mk/master/install.sh 2>/dev/null | bash
+
+    - name: Build and publish
       run: |
-        cd $GITHUB_WORKSPACE/docs
-        yarn
-        npx vuepress build content
-
-
-    - name: Publish
-      run: |
-        cd $GITHUB_WORKSPACE/docs/content/.vuepress/dist
-        echo 'mk.syrovats.ky' > CNAME
-
         git config --global user.email "slasyz@gmail.com"
         git config --global user.name "Github Actions"
+        git config --global url."https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "git@github.com:"
 
-        git init
-        git add -A
-        git commit -m 'deploy ${{ github.sha }}'
-
-        git push -f https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/slasyz/mk master:gh-pages
+        cd $GITHUB_WORKSPACE/docs
+        yarn
+        mk deploy
