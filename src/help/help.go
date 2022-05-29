@@ -35,7 +35,7 @@ func buildParamsStr(params []schema.Param) (string, error) {
 	return strings.Join(cmdParams, " "), nil
 }
 
-func getExamples(commands []schema.Command, args string) ([]example, error) {
+func getExamples(commands []*schema.Node, args string) ([]example, error) {
 	var res []example
 
 	for _, command := range commands {
@@ -58,7 +58,7 @@ func getExamples(commands []schema.Command, args string) ([]example, error) {
 			res = append(res, thisExample)
 		}
 
-		resDeeper, err := getExamples(command.Subcommands, thisCmd)
+		resDeeper, err := getExamples(command.Children, thisCmd)
 		if err != nil {
 			return nil, fmt.Errorf("error getting subcommand help: %w", err)
 		}
@@ -69,10 +69,10 @@ func getExamples(commands []schema.Command, args string) ([]example, error) {
 	return res, nil
 }
 
-func Help(root *schema.Root) (string, error) {
+func Help(root *schema.Node) (string, error) {
 	b := bytes.NewBuffer(nil)
 
-	examples, err := getExamples(root.Commands, "mk")
+	examples, err := getExamples(root.Children, "mk")
 	if err != nil {
 		return "", err
 	}

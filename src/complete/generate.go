@@ -12,7 +12,7 @@ import (
 //return
 //}
 
-func Generate(root *schema.Root, compLine string, compPoint, compWord int) ([]string, error) {
+func Generate(root *schema.Node, compLine string, compPoint, compWord int) ([]string, error) {
 	cmds, err := shlex.Split(compLine)
 	if err != nil {
 		return nil, fmt.Errorf("error splitting comp line: %w", err)
@@ -20,7 +20,7 @@ func Generate(root *schema.Root, compLine string, compPoint, compWord int) ([]st
 
 	// TODO: rewrite this
 
-	commands := root.Commands
+	commands := root.Children
 	var paramValues []string
 	var params []schema.Param
 	var i int
@@ -30,7 +30,7 @@ func Generate(root *schema.Root, compLine string, compPoint, compWord int) ([]st
 		movedDeeper := false
 		for _, cmd := range commands {
 			if cmd.Name == searchingFor {
-				commands = cmd.Subcommands
+				commands = cmd.Children
 				params = cmd.Params
 				movedDeeper = true
 				break

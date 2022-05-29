@@ -11,10 +11,9 @@ import (
 	"github.com/slasyz/mk/src/logger"
 	"github.com/slasyz/mk/src/schema"
 	"github.com/slasyz/mk/src/shell"
-	"github.com/slasyz/mk/src/validate"
 )
 
-func maybePrintHelp(root *schema.Root, err error) {
+func maybePrintHelp(root *schema.Node, err error) {
 	if errors.Is(err, build.ErrInvalidCommand) {
 		helpText, err := help.Help(root)
 		if err != nil {
@@ -27,7 +26,7 @@ func maybePrintHelp(root *schema.Root, err error) {
 }
 
 func _main() error {
-	root, err := schema.Parse("mk.yml")
+	root, err := schema.Load("mk.yml")
 	if err != nil {
 		return fmt.Errorf("error parsing mk.yml: %w", err)
 	}
@@ -37,11 +36,6 @@ func _main() error {
 		"/bin/bash",
 		shell.WithLogger(lggr),
 	)
-
-	err = validate.Validate(root)
-	if err != nil {
-		return fmt.Errorf("invalid mk.yml: %w", err)
-	}
 
 	script, err := build.Build(root, os.Args[1:])
 	maybePrintHelp(root, err)

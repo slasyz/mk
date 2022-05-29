@@ -62,7 +62,7 @@ func Complete() {
 		return
 	}
 
-	root, err := schema.Parse("mk.yml")
+	root, err := schema.Load("mk.yml")
 	if err != nil {
 		return
 	}

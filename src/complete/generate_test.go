@@ -20,25 +20,25 @@ func TestGenerate(t *testing.T) {
 			"mk ",
 			3,
 			1,
-			[]string{"noargs", "multiline", "subcommands", "params-arbitrary", "params-documented", "subcmd-params"},
+			[]string{"noargs", "multiline", "subcommands", "params-arbitrary", "params-documented", "subcmd-params", "inner"},
 		},
 		{
 			"mk noa",
 			6,
 			1,
-			[]string{"noargs", "multiline", "subcommands", "params-arbitrary", "params-documented", "subcmd-params"},
+			[]string{"noargs", "multiline", "subcommands", "params-arbitrary", "params-documented", "subcmd-params", "inner"},
 		},
 		{
 			"mk noargs",
 			6,
 			1,
-			[]string{"noargs", "multiline", "subcommands", "params-arbitrary", "params-documented", "subcmd-params"},
+			[]string{"noargs", "multiline", "subcommands", "params-arbitrary", "params-documented", "subcmd-params", "inner"},
 		},
 		{
 			"mk noargs",
 			9,
 			1,
-			[]string{"noargs", "multiline", "subcommands", "params-arbitrary", "params-documented", "subcmd-params"},
+			[]string{"noargs", "multiline", "subcommands", "params-arbitrary", "params-documented", "subcmd-params", "inner"},
 		},
 		{
 			"mk noargs ",
@@ -72,7 +72,7 @@ func TestGenerate(t *testing.T) {
 		},
 	}
 
-	root, err := schema.Parse("../../examples/example.yml")
+	root, err := schema.Load("../../examples/example.yml")
 	require.NoError(t, err)
 
 	for _, tt := range tests {

@@ -110,11 +110,21 @@ func TestBuildScript(t *testing.T) {
 			expectedScript: nil,
 			expectedError:  "error validating params: unexpected argument \"321\"",
 		},
+		//{
+		//	name:     "include file",
+		//	filename: "../../examples/example.yml",
+		//	args:     []string{"inner", "included", "param1"},
+		//	expectedScript: &Script{
+		//		Cmd:  `echo "Inner command."`,
+		//		Args: []string{"param1"},
+		//	},
+		//	expectedError: "",
+		//},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			root, err := schema.Parse(tt.filename)
+			root, err := schema.Load(tt.filename)
 			require.NoError(t, err)
 
 			res, err := Build(root, tt.args)

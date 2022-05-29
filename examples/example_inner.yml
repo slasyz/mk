@@ -1,0 +1,9 @@
+version: poc
+
+commands:
+  - name: included
+    help: Command in inner mk.yml.
+    cmd: echo "Inner command."
+  - name: another-included
+    help: Another included command.
+    cmd: echo "Second inner command."

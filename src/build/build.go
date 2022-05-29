@@ -41,7 +41,7 @@ func ValidateParamsArgs(params []schema.Param, args []string) error {
 	return nil
 }
 
-func scriptThis(command *schema.Command, args []string) (*Script, error) {
+func scriptThis(command *schema.Node, args []string) (*Script, error) {
 	if command.Cmd == "" {
 		return nil, errors.New("empty command")
 	}
@@ -57,18 +57,18 @@ func scriptThis(command *schema.Command, args []string) (*Script, error) {
 	}, nil
 }
 
-func scriptThisOrDeeper(command *schema.Command, args []string) (*Script, error) {
-	if len(command.Subcommands) > 0 && len(args) > 0 {
-		return scriptSelectCommand(command, command.Subcommands, args)
+func scriptThisOrDeeper(command *schema.Node, args []string) (*Script, error) {
+	if len(command.Children) > 0 && len(args) > 0 {
+		return scriptSelectCommand(command, command.Children, args)
 	}
 
 	return scriptThis(command, args)
 }
 
-func scriptSelectCommand(command *schema.Command, subcommands []schema.Command, args []string) (*Script, error) {
+func scriptSelectCommand(command *schema.Node, subcommands []*schema.Node, args []string) (*Script, error) {
 	for _, subcommand := range subcommands {
 		if subcommand.Name == args[0] {
-			return scriptThisOrDeeper(&subcommand, args[1:])
+			return scriptThisOrDeeper(subcommand, args[1:])
 		}
 	}
 
@@ -79,10 +79,10 @@ func scriptSelectCommand(command *schema.Command, subcommands []schema.Command, 
 	return scriptThis(command, args)
 }
 
-func Build(root *schema.Root, args []string) (*Script, error) {
+func Build(node *schema.Node, args []string) (*Script, error) {
 	if len(args) == 0 || args[0] == "help" {
 		return nil, ErrInvalidCommand
 	}
 
-	return scriptSelectCommand(nil, root.Commands, args)
+	return scriptSelectCommand(nil, node.Children, args)
 }
