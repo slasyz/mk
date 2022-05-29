@@ -4,3 +4,17 @@ commands:
   - name: test
     help: Run go tests.
     cmd: go test ./...
+  - name: build
+    help: Build binary.
+    cmd: go build -o ./bin/mk .
+    subcommands:
+      - name: all
+        help: Build for all supported platforms.
+        cmd: |
+          mkdir -p ./bin
+          rm -f ./bin/mk*
+
+          GOOS=darwin GOARCH=amd64 go build -o ./bin/mk-Darwin-x86_64
+          GOOS=darwin GOARCH=arm64 go build -o ./bin/mk-Darwin-arm64
+          GOOS=linux GOARCH=amd64 go build -o ./bin/mk-Linux-x86_64
+          GOOS=linux GOARCH=arm64 go build -o ./bin/mk-Linux-arm64
