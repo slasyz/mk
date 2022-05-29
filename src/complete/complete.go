@@ -44,7 +44,7 @@ func debug() {
 	}
 }
 
-func Complete() {
+func Complete(root *schema.Node) {
 	compLine, ok := os.LookupEnv("COMP_LINE")
 	if !ok {
 		return
@@ -59,11 +59,6 @@ func Complete() {
 	compWord, err := strconv.Atoi(os.Getenv("COMP_CWORD"))
 	if err != nil {
 		fmt.Println("Error parsing COMP_CWORD:", err)
-		return
-	}
-
-	root, err := schema.Load("mk.yml")
-	if err != nil {
 		return
 	}
 

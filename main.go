@@ -31,6 +31,8 @@ func _main() error {
 		return fmt.Errorf("error parsing mk.yml: %w", err)
 	}
 
+	complete.Complete(root)
+
 	lggr := logger.New(os.Stderr)
 	shll := shell.New(
 		"/bin/bash",
@@ -49,8 +51,6 @@ func _main() error {
 }
 
 func main() {
-	complete.Complete()
-
 	err := _main()
 	if err != nil {
 		fmt.Printf("Error: %s.\n", err.Error())
