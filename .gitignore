@@ -1,3 +1,5 @@
 /.idea
 /mk
 /bin
+/docs/node_modules
+/docs/content/.vuepress/dist

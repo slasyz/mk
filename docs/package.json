@@ -1,0 +1,12 @@
+{
+  "name": "mk",
+  "version": "poc",
+  "description": "More user-friendly `make` alternative.",
+  "main": "index.js",
+  "repository": "https://github.com/slasyz/mk",
+  "author": "Vyacheslav Syrovatsky",
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "^1.9.7"
+  }
+}

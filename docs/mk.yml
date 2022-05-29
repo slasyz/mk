@@ -1,0 +1,7 @@
+version: poc
+
+commands:
+  - name: dev
+    cmd: npx vuepress dev content
+  - name: build
+    cmd: npx vuepress build content

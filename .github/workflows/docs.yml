@@ -1,0 +1,34 @@
+name: Build and publish docs
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: Build
+      run: |
+        cd $GITHUB_WORKSPACE/docs
+        yarn
+        npx vuepress build content
+
+
+    - name: Publish
+      run: |
+        cd $GITHUB_WORKSPACE/docs/content/.vuepress/dist
+        echo 'mk.syrovats.ky' > CNAME
+
+        git config --global user.email "slasyz@gmail.com"
+        git config --global user.name "Github Actions"
+
+        git init
+        git add -A
+        git commit -m 'deploy ${{ github.sha }}'
+
+        git push -f https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/slasyz/mk master:gh-pages
