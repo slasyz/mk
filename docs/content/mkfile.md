@@ -1,4 +1,4 @@
-# mkfile
+# mk.yml
 
 This is a basic example of `mk.yml` file:
 
